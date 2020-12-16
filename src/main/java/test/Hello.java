@@ -7,6 +7,6 @@ public class Hello {
 	}
 	
 	public void test() {
-		System.out.println("666");
+		System.out.println("777");
 	}
 }
