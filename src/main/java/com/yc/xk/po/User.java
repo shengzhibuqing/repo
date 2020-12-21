@@ -17,6 +17,8 @@ public class User {
     private String pwd;
     
     private Timestamp regTime;
+    
+    
 
 	public Integer getUid() {
 		return uid;
