@@ -21,5 +21,10 @@ public class MovieAction {
 	public List<XkMovie> queryMovie(){
 		return mdao.selectMovie();
 	}
+	
+	@RequestMapping(path="movie.s",params = "op=queryNew")
+	public List<XkMovie> queryNew(){
+		return mdao.selectNewMovie();
+	}
 
 }

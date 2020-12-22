@@ -17,6 +17,11 @@ public class MovieDao extends BaseDao{
 		return jt.query(sql, movieRowMapper);
 	}
 	
+	public List<XkMovie> selectNewMovie() {
+		String sql = "select * from xk_movie order by create_date desc limit 0,6";
+		return jt.query(sql, movieRowMapper);
+	}
+	
 	private RowMapper<XkMovie> movieRowMapper = new RowMapper<XkMovie>() {
 
 		@Override
