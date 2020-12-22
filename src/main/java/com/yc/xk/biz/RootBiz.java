@@ -3,10 +3,13 @@ package com.yc.xk.biz;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.stereotype.Service;
+
 import com.yc.xk.dao.RootDao;
 import com.yc.xk.po.Root;
 import com.yc.xk.util.Utils;
 
+@Service
 public class RootBiz {
 	
 	@Resource

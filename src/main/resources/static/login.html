@@ -11,6 +11,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 <!-- start plugins -->
 <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
 <link href='http://fonts.useso.com/css?family=Roboto+Condensed:100,200,300,400,500,600,700,800,900' rel='stylesheet' type='text/css'>
 </head>
 <body>
@@ -48,18 +50,53 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			   <div class="col-md-6 login-right">
 			  	<h3>登录用户</h3>
 				<p>如果你有账号，请登录</p>
-				<form>
+				<form id="login">
 				  <div>
 					<span>您的邮箱地址<label>*</label></span>
-					<input type="text"> 
+					<input v-model="email" type="text"> 
 				  </div>
 				  <div>
 					<span>密码<label>*</label></span>
-					<input type="text"> 
+					<input v-model="pwd" type="text"> 
 				  </div>
 				  <a class="forgot" href="#">忘记密码?</a>
-				  <input type="submit" value="登录">
+				  <input type="button" @click="login()" value="登录"
+				  style="background:#d8232a; 
+			      color: #FFF font-size: 1em;
+				  padding: 7px 10px;
+				  display: inline-block;
+				  text-transform: uppercase;
+				  border: none;
+				  color: #FFF;
+		          outline: none;">
+				  
 			    </form>
+			    <script type="text/javascript">
+		        var v2 = new Vue({
+				el:"#login",
+				data:{
+					pwd:"",
+					email:""
+				},
+				methods:{
+					login(){
+						var params = new URLSearchParams();
+						params.append("pwd",this.pwd);
+						params.append("email",this.email);
+						
+						axios.post("login",params).then(res=>{
+							alert(res.data.msg);
+							if(res.data.code == 1){
+								location.href="index.html";
+							}
+						}).catch(error=>{
+							alert("系统错误，请联系管理员");
+						})
+					}
+				}
+				
+			})
+		   </script>
 			   </div>	
 			   <div class="clearfix"> </div>
 		     </div>

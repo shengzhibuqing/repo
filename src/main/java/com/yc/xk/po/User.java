@@ -16,8 +16,6 @@ public class User {
     
     private String pwd;
     
-    private Timestamp regTime;
-    
     
 
 	public Integer getUid() {
@@ -68,18 +66,11 @@ public class User {
 		this.pwd = pwd;
 	}
 
-	public Timestamp getRegTime() {
-		return regTime;
-	}
-
-	public void setRegTime(Timestamp regTime) {
-		this.regTime = regTime;
-	}
 
 	@Override
 	public String toString() {
 		return "User [uid=" + uid + ", phone=" + phone + ", email=" + email + ", name=" + name + ", head=" + head
-				+ ", pwd=" + pwd + ", regTime=" + regTime + "]";
+				+ ", pwd=" + pwd + "]";
 	}
     
     

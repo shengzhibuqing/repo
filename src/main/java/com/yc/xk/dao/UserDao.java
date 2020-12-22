@@ -32,8 +32,8 @@ public class UserDao extends BaseDao{
 		}, email);
 	}
 	
-	public User login(String email, String password, String vcode, HttpSession session) throws BizException {
-		return ubiz.login(email, password, vcode, session);
+	public User login(String email, String pwd) throws BizException {
+		return ubiz.login(email, pwd);
 	}
 
 	public void register(User user) throws BizException, SQLException {
@@ -49,9 +49,8 @@ public class UserDao extends BaseDao{
 			user.setName(rs.getString("name"));
 			user.setEmail(rs.getString("email"));
 			user.setPhone(rs.getString("phone"));
-			user.setPhone(rs.getString("head"));
-			user.setPhone(rs.getString("pwd"));
-			user.setRegTime(rs.getTimestamp("reg_time"));
+			user.setHead(rs.getString("head"));
+			user.setPwd(rs.getString("pwd"));
 			return user;
 		}
 	};
