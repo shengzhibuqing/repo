@@ -42,8 +42,20 @@ public class XkMovie {
     private String photos;
 
     private Integer createDate;
+    
+    private Integer bcount;
+    
+    
 
-    public Integer getId() {
+    public Integer getBcount() {
+		return bcount;
+	}
+
+	public void setBcount(Integer bcount) {
+		this.bcount = bcount;
+	}
+
+	public Integer getId() {
         return id;
     }
 
