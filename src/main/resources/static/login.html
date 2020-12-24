@@ -57,9 +57,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				  </div>
 				  <div>
 					<span>密码<label>*</label></span>
-					<input v-model="pwd" type="text"> 
+					<input v-model="pwd" type="password" style="padding:0.5em; width:395.51px;height:37.44px; border: 1px solid #ffffff;"> 
 				  </div>
-				  <a class="forgot" href="#">忘记密码?</a>
+				  <a class="forgot" href="resetpwd.html">忘记密码?</a>
 				  <input type="button" @click="login()" value="登录"
 				  style="background:#d8232a; 
 			      color: #FFF font-size: 1em;
@@ -69,6 +69,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				  border: none;
 				  color: #FFF;
 		          outline: none;">
+		          <div class="clearfix"> </div>
+					   <a class="news-letter" href="#">
+						 <label class="checkbox"><input type="checkbox" v-model="checkbox" value="1" checked=""><i> </i>以管理员身份登录</label>
+					   </a>
+					 </div>
 				  
 			    </form>
 			    <script type="text/javascript">
@@ -76,18 +81,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				el:"#login",
 				data:{
 					pwd:"",
-					email:""
+					email:"",
+					checkbox:""
 				},
 				methods:{
 					login(){
 						var params = new URLSearchParams();
 						params.append("pwd",this.pwd);
 						params.append("email",this.email);
-						
+						params.append("value",this.checkbox);
 						axios.post("login",params).then(res=>{
 							alert(res.data.msg);
 							if(res.data.code == 1){
 								location.href="index.html";
+							}else if(res.data.code == 2){
+								location.href="admin.html";
 							}
 						}).catch(error=>{
 							alert("系统错误，请联系管理员");

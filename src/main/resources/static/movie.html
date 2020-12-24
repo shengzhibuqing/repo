@@ -47,18 +47,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <!-- Movie variant with time -->
                             <div v-for="m in mlist"  class="movie movie-test movie-test-dark movie-test-left">
                                 <div class="movie__images">
-                                    <a href="single.html" class="movie-beta__link">
+                                    <a :href="'single.html#'+m.id" class="movie-beta__link">
                                         <img alt="" :src="m.poster" class="img-responsive" alt="" style="height:200px"/>
                                     </a>
                                 </div>
 								<div class="movie__info">
-                                    <a href="single.html" class="movie__title">Ipsum (2015)  </a>
-                                    <p class="movie__time">80 min</p>
-									<p class="movie__option"><a href="single.html">Contray</a> | <a href="single.html">Dolor sit</a> | <a href="single.html">Drama</a></p>
+                                    <a href="single.html" class="movie__title">电影编号：{{m.id}}</a>
+                                    <p class="movie__time">电影名：{{m.name}}</p>
+									<p class="movie__option">电影时长：{{m.times}}</p>
                                     <ul class="list_6">
-						    			<li><i class="icon1"> </i><p>2,548</p></li>
-						    			<li><i class="icon3"> </i><p>546</p></li>
-						    			<li>Rating : &nbsp;&nbsp;<p><img src="images/rating1.png" alt=""></p></li>
+						    			<li><p>类型：{{m.tags}}</p></li>
+						    			<li>评分 : &nbsp;&nbsp;<p>{{m.score}}</p></li>
 						    			<div class="clearfix"> </div>
 						    		</ul>
                                  </div>

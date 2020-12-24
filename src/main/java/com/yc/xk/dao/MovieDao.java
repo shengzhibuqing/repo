@@ -2,6 +2,7 @@ package com.yc.xk.dao;
 
 import java.sql.ResultSet;
 
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -47,9 +48,15 @@ public class MovieDao extends BaseDao{
 			XkMovie m = new XkMovie();
 			m.setId(rs.getInt("id"));
 			m.setName(rs.getString("name"));
+			m.setTags(rs.getString("tags"));
+			m.setTimes(rs.getString("times"));
 			m.setPoster(rs.getString("poster"));
+			m.setReleaseDate(rs.getString("release_date"));
 			m.setCreateDate(rs.getInt("create_date"));
+			m.setNation(rs.getString("nation"));
+			m.setDirector(rs.getString("director"));
 			m.setBcount(rs.getInt("bcount"));
+			
 			return m;
 		}
 	};
@@ -77,6 +84,26 @@ public class MovieDao extends BaseDao{
 			return rs.next() ? moviewithRowMapper.mapRow(rs, -1) : null;
 		}, id);
 		
+	}
+
+	public List<XkMovie> selectPage(int page) {
+		//计算开始页数
+		int begin=(page-1)*10;
+		//mysql 分页查询语法 ：limit 从第几行开始，查几行数据
+		String sql="select * from xk_movie limit ?,10";
+		return jt.query(sql, movieRowMapper, begin);
+				
+	}
+
+	
+	public int selectCount() {
+		String sql="select count(*) cnt from xk_movie";
+		return jt.queryForObject(sql,Integer.class);
+	}
+
+	public List<XkMovie> queryLike(String m) {
+		String sql="select*from xk_movie where name like concat('%',?,'%') ";
+		return jt.query(sql,movieRowMapper,m);
 	}
 
 }

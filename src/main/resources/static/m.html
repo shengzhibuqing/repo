@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<link rel="stylesheet" type="text/css" href="../easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
+<script type="text/javascript" src="../easyui/jquery.min.js"></script>
+<script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript"src="../easyui/locale/easyui-lang-zh_CN.js"></script>
+<body>
+<div id="cc" class="easyui-layout" data-options="fit:true">
+     <div data-options="region:'north',title:'查询条件',split:true" style="height:100px;"></div>
+     <div data-options="region:'center',title:'查询结果'" style="padding:5px;background:#eee;">
+     <table class="easyui-datagrid" 
+      data-options="fit:true,
+      url:'querymovie.s',
+      fitColumns:true,
+      singleSelect:true,
+      pagination:true">
+    <thead>
+        <tr>
+            <th data-options="field:'id',width:100">编码</th>
+            <th data-options="field:'name',width:100">电影名</th>
+            <th data-options="field:'tags',width:100">分类</th>
+            <th data-options="field:'releaseDate',width:100">上映时间</th>
+            <th data-options="field:'createDate',width:100">发布时间</th>
+            <th data-options="field:'times',width:100">电影时长</th>
+        </tr>
+    </thead>
+</table></div>
+</div>
+</body>
+</html>

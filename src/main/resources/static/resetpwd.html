@@ -1,0 +1,178 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>重置密码</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Movie_store Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony Ericsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<!-- start plugins -->
+<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
+<link href='http://fonts.useso.com/css?family=Roboto+Condensed:100,200,300,400,500,600,700,800,900' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<div class="container">
+	<div class="container_wrap">
+		<div class="header_top">
+		    <div class="col-sm-3 logo"><a href="index.html"><img src="images/logo.png" alt=""/></a></div>
+		    <div class="col-sm-6 nav">
+			  <ul>
+				 <li> <span class="simptip-position-bottom simptip-movable" data-tooltip="comic"><a href="movie.html"> </a></span></li>
+				 <li><span class="simptip-position-bottom simptip-movable" data-tooltip="movie"><a href="movie.html"> </a> </span></li>
+				 <li><span class="simptip-position-bottom simptip-movable" data-tooltip="video"><a href="movie.html"> </a></span></li>
+				 <li><span class="simptip-position-bottom simptip-movable" data-tooltip="game"><a href="movie.html"> </a></span></li>
+				 <li><span class="simptip-position-bottom simptip-movable" data-tooltip="tv"><a href="movie.html"> </a></span></li>
+				 <li><span class="simptip-position-bottom simptip-movable" data-tooltip="more"><a href="movie.html"> </a></span></li>
+			 </ul>
+			</div>
+			<div class="col-sm-3 header_right">
+			   <ul class="header_right_box">
+				 <li><img src="images/p1.png" alt=""/></li>
+				 <li><p><a href="login.html">登录</a></p></li>
+				 <li class="last"><i class="edit"> </i></li>
+				 <div class="clearfix"> </div>
+			   </ul>
+			</div>
+			<div class="clearfix"> </div>
+	      </div>
+	      <div class="content">
+      	     <div class="register">
+		  	  <form> 
+				 <div class="register-top-grid">
+					<h3>重置密码</h3>
+					 <div>
+						<span>邮箱<label>*</label></span>
+						<input v-model="user.email" type="text"> 
+					 </div>
+					 <div>
+								<span>新密码<label>*</label></span>
+								<input  v-model="newpwd" type="password" style="padding:0.5em; width:407.34px;height:35.06px; border: 1px solid #ffffff;">
+							 </div>
+					 <div class="clearfix"> </div>
+					 </div>
+				     <div class="register-bottom-grid">
+							 <div>
+							 </div>
+							 <div>
+								<span>验证码<label>*</label></span>
+								<input v-model="yzm" type="text" style="width:149.43px;height:25.06px">
+							 </div>
+							 <div class="clearfix"> </div>
+					 </div>
+				</form>
+				<div class="clearfix"> </div>
+				<div class="register-but">
+				   <form>
+				       <div><a @click="toemail()">发送验证码</a></div>
+					   <input @click="update()" type="button" value="修改密码" 
+					   style="background:#d8232a; 
+					   color: #FFF font-size: 1em;
+					   padding: 7px 10px;
+					   display: inline-block;
+					   text-transform: uppercase;
+					   border: none;
+					   color: #FFF;
+                       outline: none;">
+					   <div class="clearfix"> </div>
+				   </form>
+				</div>
+		   </div>
+		   <script type="text/javascript">
+		   var v2 = new Vue({
+				el:".register",
+				data:{
+					user:{
+						email:""
+					},
+					newpwd:"",
+					yzm:""
+				},
+				methods:{
+					toemail(){
+					    var params = new URLSearchParams();
+					    params.append("email",this.user.email);
+						axios.post("email.s",params).then(res=>{
+							alert(res.data.msg);
+						})
+					},
+					update(){
+						var params = new URLSearchParams();
+						params.append("newpwd",this.newpwd);
+						params.append("email",this.user.email);
+						params.append("vcode",this.yzm);
+						
+						axios.post("update",params).then(res=>{
+							alert(res.data.msg);
+							if(res.data.code == 1){
+								location.href="login.html";
+							}
+						}).catch(error=>{
+							alert("系统错误，请联系管理员");
+						})
+					}
+				}
+				
+			})
+		   </script>
+           </div>
+    </div>
+</div>
+<div class="container"> 
+ <footer id="footer">
+ 	<div id="footer-3d">
+		<div class="gp-container">
+			<span class="first-widget-bend"> </span>
+		</div>		
+	</div>
+    <div id="footer-widgets" class="gp-footer-larger-first-col">
+		<div class="gp-container">
+            <div class="footer-widget footer-1">
+            	<div class="wpb_wrapper">
+					<img src="images/f_logo.png" alt=""/>
+				</div> 
+	          <br>
+	          <p>It is a long established fact that a reader will be distracted by the readable content of a page.</p>
+			  <p class="text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered.</p>
+			 </div>
+			 <div class="footer_box">
+			  <div class="col_1_of_3 span_1_of_3">
+					<h3>Categories</h3>
+					<ul class="first">
+						<li><a href="#">Dance</a></li>
+						<li><a href="#">History</a></li>
+						<li><a href="#">Specials</a></li>
+					</ul>
+		     </div>
+		     <div class="col_1_of_3 span_1_of_3">
+					<h3>Information</h3>
+					<ul class="first">
+						<li><a href="#">New products</a></li>
+						<li><a href="#">top sellers</a></li>
+						<li><a href="#">Specials</a></li>
+					</ul>
+		     </div>
+		     <div class="col_1_of_3 span_1_of_3">
+					<h3>Follow Us</h3>
+					<ul class="first">
+						<li><a href="#">Facebook</a></li>
+						<li><a href="#">Twitter</a></li>
+						<li><a href="#">Youtube</a></li>
+					</ul>
+					<div class="copy">
+				      <p>Copyright &copy; 2015.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
+			        </div>
+		     </div>
+		    <div class="clearfix"> </div>
+	        </div>
+	        <div class="clearfix"> </div>
+		</div>
+	</div>
+  </footer>
+</div>		
+</body>
+</html>

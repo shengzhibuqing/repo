@@ -2,8 +2,8 @@ package com.yc.xk.biz;
 
 import java.sql.SQLException;
 
+
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
@@ -32,10 +32,10 @@ public class UserBiz {
 
 	public void register(User user) throws BizException, SQLException {
 		// 字段验证
-		Utils.checkNull(user.getPwd(), "密码不能为空");
+		Utils.checkNull(user.getName(), "昵称不能为空");
 		Utils.checkNull(user.getEmail(), "邮箱不能为空");
 		Utils.checkNull(user.getPhone(), "电话号码不能为空");
-		Utils.checkNull(user.getName(), "昵称不能为空");
+		Utils.checkNull(user.getPwd(), "密码不能为空");
 		// 同名验证
 		User dbuser = udao.selectByEmail(user.getEmail());
 		if(dbuser != null ) {
@@ -66,6 +66,16 @@ public class UserBiz {
 			throw new BizException("密码错误");
 		}
 		return user;
+	}
+	
+	public Integer update(String email,String newpwd) throws BizException {
+		// 字段验证
+		Utils.checkNull(email, "请输入邮箱");
+		Utils.checkNull(newpwd, "请输入新密码");
+		
+		int i=udao.updateByEmail(email,newpwd);
+		//System.out.println(user);
+		return i;
 	}
 
 }

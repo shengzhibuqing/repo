@@ -119,10 +119,42 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
       	<div class="box_1">
       	 <h1 class="m_2">最热电影</h1>
       	 <div class="search">
-		    <form>
-				<input type="text" value="Search..." onfocus="this.value='';" onblur="if (this.value == '') {this.value ='';}">
-				<input type="submit" value="">
+		    <form id="nb" >
+				<input type="text" v-model="m" value="搜索..." onfocus="this.value='';" onblur="if (this.value == '') {this.value ='';}">
+				<input type="button" style="background: url(../images/search.png)no-repeat 3px -2px;
+								    width: 20px;
+								    height: 20px;
+								    border: none;
+								    cursor: pointer;
+								    outline: none;
+								    position: absolute;
+								    top: 23%;
+								    right: 8px;" @click="querymovie()" value="">
 		    </form>
+		    <script type="text/javascript">
+			var vue = new Vue({
+				el:"#nb",
+				data:{
+					m:""	
+				},
+				methods:{
+					querymovie(){
+						var params = new URLSearchParams();
+						params.append("m",this.m);
+						axios.post("queryM",params).then(res=>{
+							alert(res.data.msg);
+							if(res.data.code == 1){
+								console.info
+								location.href="querymovie.html#"+this.m;
+							}
+						}).catch(error=>{
+							alert("系统错误，请联系管理员");
+						})
+					}
+				}
+			})
+		    
+			</script>
 		</div>
 		<div class="clearfix"> </div>
 		</div>

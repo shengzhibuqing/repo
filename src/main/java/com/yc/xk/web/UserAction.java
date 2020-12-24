@@ -3,6 +3,8 @@ package com.yc.xk.web;
 
 import java.io.IOException;
 
+
+
 import java.sql.SQLException;
 
 import javax.annotation.Resource;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.yc.xk.biz.BizException;
 import com.yc.xk.biz.MovieBiz;
 import com.yc.xk.biz.UserBiz;
+import com.yc.xk.dao.RootDao;
 import com.yc.xk.dao.UserDao;
 import com.yc.xk.po.Result;
 import com.yc.xk.po.User;
@@ -27,6 +30,9 @@ public class UserAction {
 	
 	@Resource
 	private UserBiz ubiz;
+	
+	@Resource
+	private RootDao rdao;
 	
 	@RequestMapping("getLoginedUser")
 	public User getLoginedUser(String username,HttpSession session) {
@@ -43,6 +49,22 @@ public class UserAction {
 			user = udao.login(email,pwd);
 			s.setAttribute("loginedUser", user);
 			return new Result(1, "登录成功");
+		} catch (BizException e) {
+			e.printStackTrace();
+			return  new Result(0, e.getMessage());
+		}
+		
+	}
+	
+	@RequestMapping(path="login",params = "value=true")
+	public Result login1(String email,String pwd,HttpSession s) throws IOException, EncodeException {
+		//Root root = new Root();
+		try {
+			System.out.println(email);
+			System.out.println(pwd);
+			rdao.login(email,pwd);
+			//s.setAttribute("loginedUser", user);
+			return new Result(2, "登录成功");
 		} catch (BizException e) {
 			e.printStackTrace();
 			return  new Result(0, e.getMessage());
@@ -69,6 +91,26 @@ public class UserAction {
 			e.printStackTrace();
 			return new Result(0, e.getMessage());
 		} 
+	}
+	
+	@RequestMapping("update")
+	public Result update(User user,String newpwd,String email,String vcode,HttpSession session){
+			//System.out.println(user.getPwd());
+			//System.out.println(repwd);
+			try {
+				String svcode = (String) session.getAttribute("vcode");
+				if(!vcode.equalsIgnoreCase(svcode)) {
+					throw new BizException("验证码错误");
+				}else {
+					ubiz.update(email, newpwd);
+					return new Result(1, "修改成功");
+				}
+			} catch (BizException e) {
+				e.printStackTrace();
+				return new Result(0, e.getMessage());
+			}
+
+
 	}
 	
 	@Resource
