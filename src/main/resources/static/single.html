@@ -11,6 +11,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 <!-- start plugins -->
 <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
 <link href='http://fonts.useso.com/css?family=Roboto+Condensed:100,200,300,400,500,600,700,800,900' rel='stylesheet' type='text/css'>
 </head>
 <body>
@@ -80,61 +82,67 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                          </div>
                         <div class="clearfix"> </div>
                         <p class="m_4">电影简介</p>
-		                <form>
+		                <form name="form1" id="form1" method="form1">
 							<div class="text">
-			                   <textarea value="Message:" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message';}">内容:</textarea>
+			                   <textarea v-model="xkmsg.content" ></textarea>
 			                </div>
 			                <div class="form-submit1">
-					           <input name="submit" type="submit" id="submit" value="发布留言"><br>
+					           <input @click="addMsg" name="button" type="button" id="submit" value="发布留言"><br>
 					        </div>
 							<div class="clearfix"></div>
                  		</form>
+                 		<script type="text/javascript">
+                 		  var v = new Vue({
+                 			  el : "#form1",
+                 			  data : {
+                 				  xkmsg : {
+                 					  content : ""
+                 				  }
+                 			  },
+                 			  methods : {
+                 				  addMsg(){
+                 					  var params = new URLSearchParams();
+                 					  params.append("content",this.xkmsg.content);
+                 					  axios.post("../../addMsg",params).then(res=>{
+                 						  alert(res.data);
+                 					  })
+                 				  }
+                 			  }
+                 		  })
+                 		
+                 		</script>
+                 		
 		                <div class="single">
 		                <h1>评论总数</h1>
-		                <ul class="single_list">
-					        <li>
+		                <ul class="single_list" id="mymsg">
+					        <li v-for=" m in mlist">
 					            <div class="preview"><a href="#"><img src="images/2.jpg" class="img-responsive" alt=""></a></div>
 					            <div class="data">
-					                <div class="title">昵称/评论时间</div>
-					                <p>评论内容</p>
+					                <div class="title">{{m.createName}}/{{m.createTime}}</div>
+					                <p>{{m.content}}</p>
 					            </div>
 					            <div class="clearfix"></div>
 					        </li>
 			  			</ul>
+			  			<script>
+			  				new Vue({
+			  					el : "#mymsg",
+			  					data : { mlist : []},
+			  					created(){
+			  						axios.get("xkmsg.s?op=showMsg").then(res=>{
+			  							this.mlist = res.data;
+			  						})
+			  					}
+			  					
+			  				})
+			  			
+			  			
+			  			</script>
+			  			
                       </div>
                       </div>
                       <div class="col-md-3">
-                      	<div class="movie_img"><div class="grid_2">
-							<img src="images/pic6.jpg" class="img-responsive" alt="">
-							<div class="caption1">
-									<ul class="list_5 list_7">
-							    		<li><i class="icon5"> </i><p>3,548</p></li>
-							    	</ul>
-							    	<i class="icon4 icon6 icon7"> </i>
-							    	<p class="m_3">Guardians of the Galaxy</p>
-							</div>
-						    </div>
-						   </div>
-                      	  <div class="grid_2 col_1">
-							<img src="images/pic2.jpg" class="img-responsive" alt="">
-							<div class="caption1">
-								<ul class="list_3 list_7">
-						    		<li><i class="icon5"> </i><p>3,548</p></li>
-						    	</ul>
-						    	<i class="icon4 icon7"> </i>
-						    	<p class="m_3">Guardians of the Galaxy</p>
-							</div>
-						   </div>
-						    <div class="grid_2 col_1">
-							<img src="images/pic9.jpg" class="img-responsive" alt="">
-							<div class="caption1">
-								<ul class="list_3 list_7">
-						    		<li><i class="icon5"> </i><p>3,548</p></li>
-						    	</ul>
-						    	<i class="icon4 icon7"> </i>
-						    	<p class="m_3">Guardians of the Galaxy</p>
-							</div>
-						   </div>
+                      	
 		               </div> 
                       <div class="clearfix"> </div>
                   </div>

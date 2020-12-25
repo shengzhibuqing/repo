@@ -3,6 +3,8 @@ package com.yc.xk.po;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class XkMsg {
     private Integer id;
 
@@ -11,12 +13,23 @@ public class XkMsg {
     private String reply;
 
     private String createName;
-
+    
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Timestamp createTime;
     
     private String Email;
     
     private Date replyTime;
+    
+    private String uid;
+
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
 
 	public Date getReplyTime() {
 		return replyTime;
@@ -73,4 +86,8 @@ public class XkMsg {
     public void Timestamp(Timestamp createTime) {
         this.createTime = createTime;
     }
+
+	public void setCreateTime(Timestamp createTime) {
+		this.createTime = createTime;
+	}
 }
