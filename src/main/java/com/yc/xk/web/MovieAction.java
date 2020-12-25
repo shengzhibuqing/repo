@@ -56,8 +56,8 @@ public class MovieAction {
 	}
 	
 	@RequestMapping(path="movie.s" ,params = "op=queryl")
-	public List<XkMovie> queryl(String m){
-		List<XkMovie> list = mdao.queryLike(m);
+	public List<XkMovie> queryl(String m,int page){
+		List<XkMovie> list = mdao.queryLikePage(m,page);
 		System.out.println("niubi"+m);
 		System.out.println("------"+list);
 		return list;
@@ -76,5 +76,13 @@ public class MovieAction {
 				return new Result(1,"查询成功");
 			}
 		}
+	}
+	
+	@RequestMapping(path="movie.s" ,params = "op=querycount")
+	public int querycount(String m){
+		double page = Math.ceil(mdao.selectCountpage(m)/6);
+		int pages = (int)page;
+		System.out.println("--------"+pages);
+		return pages;
 	}
 }

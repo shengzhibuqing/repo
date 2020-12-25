@@ -106,4 +106,15 @@ public class MovieDao extends BaseDao{
 		return jt.query(sql,movieRowMapper,m);
 	}
 
+	public List<XkMovie> queryLikePage(String m, int page) {
+		int begin=(page-1)*6;
+		String sql="select*from xk_movie where name like concat('%',?,'%') limit ?,6 ";
+		return jt.query(sql,movieRowMapper,m,begin);
+	}
+	
+	public int selectCountpage(String m) {
+		String sql="select count(*) cnt from xk_movie where name like concat('%',?,'%')";
+		return jt.queryForObject(sql,Integer.class,m);
+	}
+
 }

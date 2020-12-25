@@ -63,16 +63,53 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                  </div>
                                 <div class="clearfix"> </div>
                             </div>
+                            <div class="pagination">
+					           <span class="currentPage"></span><a class="nextPage"
+						 @click="uppage()" >上一页|</a> <a class="lastPage"
+						 @click="downpage()">下一页|</a>
+						 <span id="count" v-text="'总共'+pages+'页'"></span>
+				            </div>
                       </div>
-                      <script type="text/javascript">
+                            <script type="text/javascript">
+                           		var page=1;
+                           		var pages=0;
 	    						var vue = new Vue({
 	    							el:"#querym",
 	    							data:{
+	    								pages:"",
 	    								mlist:[]
 	    							},
+	    							methods:{
+	    								uppage(){
+	    									page=page-1;
+	    									if(page==0){
+	    										alert("当前已经是第一页！");
+	    										page=1;
+	    									}
+	    									axios.get("movie.s?op=queryl&page="+page+"&m="+location.hash.substring(1)).then(res=>{
+		    									this.mlist = res.data;
+		    								})
+	    								},
+	    								downpage(){
+	    									if(page==0){
+	    										alert("当前已是最后一页！");
+	    										page=pages;
+	    									}
+	    									page=page+1;
+	    									axios.get("movie.s?op=queryl&page="+page+"&m="+location.hash.substring(1)).then(res=>{
+		    									this.mlist = res.data;
+		    								})
+	    								}
+	    							},
 	    							created(){
-	    								axios.get("movie.s?op=queryl&m="+location.hash.substring(1)).then(res=>{
+	    								axios.get("movie.s?op=queryl&page="+page+"&m="+location.hash.substring(1)).then(res=>{
 	    									this.mlist = res.data;
+	    								}),
+	    								axios.get("movie.s?op=querycount&m="+location.hash.substring(1)).then(res=>{
+	    									//console.info(res.data);
+	    									this.pages = res.data;
+	    									console.info(this.pages);
+	    									this.pages = pages;
 	    								})
 	    							}
 	    						})

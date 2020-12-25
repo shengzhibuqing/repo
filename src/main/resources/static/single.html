@@ -82,10 +82,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="down_btn"><a class="btn1" href="#"><span> </span>下载</a></div>
                          </div>
                         <div class="clearfix"> </div>
-<<<<<<< HEAD
-                        <p class="m_4">电影简介</p>
-		                <form name="form1" id="form1" method="form1">
-=======
                         <p class="m_4" v-html="m.intro">电影简介</p>
                         </div>
   <script type="text/javascript">
@@ -101,8 +97,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				}
 			})
 		</script>
-		                <form>
->>>>>>> branch 'main' of https://github.com/shengzhibuqing/repo.git
+		                 <form name="form1" id="form1" method="form1">
 							<div class="text">
 			                   <textarea v-model="xkmsg.content" ></textarea>
 			                </div>
@@ -122,9 +117,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                  			  methods : {
                  				  addMsg(){
                  					  var params = new URLSearchParams();
+                 					  var mid = location.hash.substring(1);
+                 					  params.append("mid",mid)
                  					  params.append("content",this.xkmsg.content);
-                 					  axios.post("../../addMsg",params).then(res=>{
-                 						  alert(res.data);
+                 					  axios.post("addMsg",params).then(res=>{
+                 						  if(res.data.code==0){
+                 							 alert(res.data.msg);
+                 						  }else if(res.data.code==1){
+                 							  alert(res.data.msg);
+                 							  location.href = "single.html#"+mid;
+                 						  }
+                 						  //location.href = "single.html#"+location.hash.substring(1);
                  					  })
                  				  }
                  			  }
@@ -138,8 +141,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					        <li v-for=" m in mlist">
 					            <div class="preview"><a href="#"><img src="images/2.jpg" class="img-responsive" alt=""></a></div>
 					            <div class="data">
-					                <div class="title">{{m.createName}}/{{m.createTime}}</div>
-					                <p>{{m.content}}</p>
+					                <div class="title">昵称：{{m.createName}}/留言时间：{{m.createTime}}</div>
+					                <p>{{m.createName}}：{{m.content}}</p>
 					            </div>
 					            <div class="clearfix"></div>
 					        </li>
@@ -147,9 +150,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			  			<script>
 			  				new Vue({
 			  					el : "#mymsg",
-			  					data : { mlist : []},
+			  					data : { 
+			  						mlist : []
+			  				    },
 			  					created(){
-			  	 					axios.get("xkmsg.s?op=showMsg").then(res=>{
+			  	 					axios.get("xkmsg.s?op=showMsg&mid="+location.hash.substring(1)).then(res=>{
 			  							this.mlist = res.data;
 			  						})
 			  					}
