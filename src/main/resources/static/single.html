@@ -129,7 +129,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			  					el : "#mymsg",
 			  					data : { mlist : []},
 			  					created(){
-			  						axios.get("xkmsg.s?op=showMsg").then(res=>{
+			  	 					axios.get("xkmsg.s?op=showMsg").then(res=>{
 			  							this.mlist = res.data;
 			  						})
 			  					}
