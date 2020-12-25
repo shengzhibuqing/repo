@@ -17,7 +17,6 @@ public class MsgDao extends BaseDao{
 		String sql = "insert into xk_msg values(null,null,null,?,default,null,null,null)";
 		jt.update(sql, xkmsg.getContent());
 	}
- 
 	
 	public List<XkMsg> shouMsg(){
 		String sql = "select * from xk_msg order by create_time desc limit 0,6";

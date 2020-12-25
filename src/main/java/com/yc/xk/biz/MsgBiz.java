@@ -12,7 +12,7 @@ import com.yc.xk.po.XkMsg;
 @Service
 public class MsgBiz {
 
-	@Resource    
+	@Resource   
 	private MsgDao dao = new MsgDao();
 	
 	public void addMsg(XkMsg xkmsg)throws BizException{
