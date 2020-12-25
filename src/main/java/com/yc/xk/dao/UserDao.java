@@ -2,10 +2,11 @@ package com.yc.xk.dao;
 
 import java.sql.ResultSet;
 
+
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -55,4 +56,23 @@ public class UserDao extends BaseDao{
 		}
 	};
 
+	public List<User> selectPage(int page) {
+		//计算开始页数
+		int begin=(page-1)*10;
+		//mysql 分页查询语法 ：limit 从第几行开始，查几行数据
+		String sql="select * from user limit ?,10";
+		return jt.query(sql, UserRowMapper, begin);
+				
+	}
+
+	
+	public int selectCount() {
+		String sql="select count(*) cnt from user";
+		return jt.queryForObject(sql,Integer.class);
+	}
+
+	public Integer updateByEmail(String email,String newpwd) {
+		String sql = "update user set pwd = ? where email = ?";
+		return jt.update(sql, newpwd,email);
+	}
 }

@@ -42,14 +42,40 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				 <li><span class="simptip-position-bottom simptip-movable" data-tooltip="more"><a href="movie.html"> </a></span></li>
 			 </ul>
 			</div>
-			<div class="col-sm-3 header_right">
+			<div id="topNav" class="col-sm-3 header_right">
 			   <ul class="header_right_box">
 				 <li><img src="images/p1.png" alt=""/></li>
-				 <li><p><a href="login.html">登录</a></p></li>
-				 <li class="last"><i class="edit"> </i></li>
+				 <li><p> <a href="login.html" v-if=" user=='' ">登录</a>
+						<a v-if="user!=null">{{user.name}}</a></p></li>
+				 <li style="font-size: 1.2em;font-weight: 600;margin-top: 4px;"class="last">&nbsp;&nbsp;&nbsp;&nbsp;<a style="color:black" @click="logout()" >退出</a></li>
 				 <div class="clearfix"> </div>
 			   </ul>
 			</div>
+			<script type="text/javascript">
+			var v2 = new Vue({
+				el:"#topNav",
+				data:{
+					user:{}
+				},
+				created(){
+					axios.get("getLoginedUser").then(res=>{
+						this.user = res.data;
+					})
+				},
+				methods:{
+					logout(){
+						if(confirm("确定要退出登录?")){
+							axios.get("out.s").then(res=>{
+								alert(res.data.msg);
+								location.href = "index.html";
+							});
+						}
+					}
+				}
+			})
+		
+		
+		</script>
 			<div class="clearfix"> </div>
 	      </div>
 	      <div class="slider">
@@ -91,46 +117,127 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
       </div>
       <div class="content">
       	<div class="box_1">
-      	 <h1 class="m_2">Featured movies</h1>
+      	 <h1 class="m_2">最热电影</h1>
       	 <div class="search">
-		    <form>
-				<input type="text" value="Search..." onfocus="this.value='';" onblur="if (this.value == '') {this.value ='';}">
-				<input type="submit" value="">
+		    <form id="nb" >
+				<input type="text" v-model="m" value="搜索..." onfocus="this.value='';" onblur="if (this.value == '') {this.value ='';}">
+				<input type="button" style="background: url(../images/search.png)no-repeat 3px -2px;
+								    width: 20px;
+								    height: 20px;
+								    border: none;
+								    cursor: pointer;
+								    outline: none;
+								    position: absolute;
+								    top: 23%;
+								    right: 8px;" @click="querymovie()" value="">
 		    </form>
+		    <script type="text/javascript">
+			var vue = new Vue({
+				el:"#nb",
+				data:{
+					m:""	
+				},
+				methods:{
+					querymovie(){
+						var params = new URLSearchParams();
+						params.append("m",this.m);
+						axios.post("queryM",params).then(res=>{
+							alert(res.data.msg);
+							if(res.data.code == 1){
+								console.info
+								location.href="querymovie.html#"+this.m;
+							}
+						}).catch(error=>{
+							alert("系统错误，请联系管理员");
+						})
+					}
+				}
+			})
+		    
+			</script>
 		</div>
 		<div class="clearfix"> </div>
 		</div>
 		<div class="box_2">
-			  <div v-for="m in mlist" class="col-md-6 grid_4">
-			    <a href="'single.html#'+m.id">
-					<img :src="m.poster" 
-					width= "120px"
-					height= "150px"
-					border="50"
-					class="img-responsive" alt=""/>
+			<div id="hotm" class="col-md-5 grid_3">
+			  <div class="row_1">
+			  <div v-for="m in mlist" class="col-md-6 grid_4" >
+			     <a :href="'single.html#'+m.id">
+				  <div class="grid_2">
+					<img :src="m.poster" class="img-responsive" alt="" style="height:280px;padding-bottom: 40px" border="5px"  />
 					<div class="caption1">
-						<ul class="list_3">
-				    		<li><i class="icon5"> </i><p>{{m.times}}分钟</p></li>
-				    	</ul>
-				    	<i class="icon4"> </i>
-				    	<p class="m_3">{{m.name}}</p>
+				    	<p class="m_3" style="color:black">{{m.name}}</p>
 					</div>
-			    </a>
-		     </div>
+				   </div>
+			      </a>
+			  </div>
+			   <div class="clearfix"> </div>
+			   </div>
+			</div>
+			<div id="hotm1" class="col-md-5 grid_3">
+			  <div class="row_1">
+			  <div v-for="m in mlist" class="col-md-6 grid_4" >
+			     <a :href="'single.html#'+m.id">
+				  <div class="grid_2">
+					<img :src="m.poster" class="img-responsive" alt="" style="height:280px;padding-bottom: 40px" border="5px"  />
+					<div class="caption1">
+				    	<p class="m_3" style="color:black">{{m.name}}</p>
+					</div>
+				   </div>
+			      </a>
+			  </div>
+			   <div class="clearfix"> </div>
+			   </div>
+			</div>
+			<div class="col-md-2 grid_6">
+				<div class="m_7"><a href="single.html"><img src="images/pic9.jpg" class="img-responsive" alt=""/></a></div>
+				<div class="caption1">
+						<ul class="list_5">
+				    		<li><i class="icon5"> </i><p>3,548</p></li>
+				    	</ul>
+				    	<i class="icon4 icon6"> </i>
+				    	<p class="m_3">Guardians of the Galaxy</p>
+				</div>
+				<div class="col_2 col_3">
+				   	    <ul class="list_4">
+			    			<li><i class="icon1"> </i><p>2,548</p></li>
+			    			<li><i class="icon2"> </i><p>215</p></li>
+			    			<li><i class="icon3"> </i><p>546</p></li>
+			    			<li>Rating : &nbsp;&nbsp;<p><img src="images/rating1.png" alt=""></p></li>
+			    			<li>Release : &nbsp;<span class="m_4">Mar 15, 2015</span> </li>
+			    			<div class="clearfix"> </div>
+			    		</ul>
+			    		<div class="m_8"><a href="single.html"><img src="images/pic10.jpg" class="img-responsive" alt=""/></a></div>
+			    </div>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+		                    <script type="text/javascript">
+	    						var vue = new Vue({
+	    							el:"#hotm",
+	    							data:{
+	    								mlist:[]	
+	    							},
+	    							created(){
+	    								axios.get("movie.s?op=queryHot").then(res=>{
+	    									this.mlist = res.data;
+	    								})
+	    							}
+	    						})
+	    						var vue1 = new Vue({
+	    							el:"#hotm1",
+	    							data:{
+	    								mlist:[]	
+	    							},
+	    							created(){
+	    								axios.get("movie.s?op=queryHot1").then(res=>{
+	    									this.mlist = res.data;
+	    								})
+	    							}
+	    						})
+    	                    </script>
+      </div>
    </div>
-   <script type="text/javascript">
-						var vue = new Vue({
-							el:".box_2",
-							data:{
-								mlist:[]
-							},
-							created(){
-								axios.get("movie.s?op=queryMovie").then(res=>{
-									this.mlist = res.data;
-								})
-							}
-						})
-					</script>
  </div>
  
 <div class="container"> 

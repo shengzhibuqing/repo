@@ -19,8 +19,8 @@ public class RootDao extends BaseDao{
 	@Resource
 	private RootBiz rbiz;
 	
-	public Root login(String email, String password, String vcode, HttpSession session) throws BizException {
-		return rbiz.login(email, password, vcode, session);
+	public Root login(String email, String pwd) throws BizException {
+		return rbiz.login(email, pwd);
 	}
 	
 	public Root selectByEmail(String email) {
@@ -36,7 +36,7 @@ public class RootDao extends BaseDao{
 		@Override
 		public Root mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Root root = new Root();
-			root.setIname(rs.getString("name"));
+			root.setIname(rs.getString("iname"));
 			root.setEmail(rs.getString("email"));
 			root.setPassword(rs.getString("password"));
 			root.setPhone(rs.getString("phone"));

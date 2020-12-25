@@ -42,8 +42,20 @@ public class XkMovie {
     private String photos;
 
     private Integer createDate;
+    
+    private Integer bcount;
+    
+    
 
-    public Integer getId() {
+    public Integer getBcount() {
+		return bcount;
+	}
+
+	public void setBcount(Integer bcount) {
+		this.bcount = bcount;
+	}
+
+	public Integer getId() {
         return id;
     }
 
@@ -210,4 +222,16 @@ public class XkMovie {
     public void setCreateDate(Integer createDate) {
         this.createDate = createDate;
     }
+
+	@Override
+	public String toString() {
+		return "XkMovie [id=" + id + ", name=" + name + ", name0=" + name0 + ", names=" + names + ", poster=" + poster
+				+ ", category=" + category + ", nation=" + nation + ", tags=" + tags + ", language=" + language
+				+ ", subtitle=" + subtitle + ", releaseDate=" + releaseDate + ", imdbScore=" + imdbScore
+				+ ", doubanScore=" + doubanScore + ", director=" + director + ", writers=" + writers + ", format="
+				+ format + ", screenSize=" + screenSize + ", times=" + times + ", numbers=" + numbers + ", photos="
+				+ photos + ", createDate=" + createDate + ", bcount=" + bcount + "]";
+	}
+    
+    
 }

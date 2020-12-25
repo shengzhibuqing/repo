@@ -40,13 +40,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			</div>
 			<div class="clearfix"> </div>
 	      </div>
-	   <div class="content">
+	   <div  class="content">
       	   <div class="movie_top">
       	         <div class="col-md-9 movie_box">
+      	         <div id="intro">
                         <div class="grid images_3_of_2">
                         	<div class="movie_image">
                                 <span class="movie_rating">5.0</span>
-                                <img src="images/single.jpg" class="img-responsive" alt=""/>
+                                <img :src="m.poster" class="img-responsive" alt=""/>
                             </div>
                             <div class="movie_rate">
                             	<div class="rating_desc"><p>您的评分 :</p></div>
@@ -72,17 +73,36 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </div>
                         </div>
                         <div class="desc1 span_3_of_2">
-                        	<p class="movie_option"><strong>电影名: </strong><a href="#">established</a>, <a href="#">USA</a></p>
-                        	<p class="movie_option"><strong>类别: </strong>2014</p>
-                        	<p class="movie_option"><strong>上映年份: </strong><a href="#">Adventure</a>, <a href="#">Fantazy</a></p>
-                        	<p class="movie_option"><strong>导演: </strong>December 12, 2014</p>
-                        	<p class="movie_option"><strong>电影时长: </strong><a href="#">suffered </a></p>
+                        	<p class="movie_option"><strong>电影名: </strong><a href="#">{{m.name}}</a></p>
+                        	<p class="movie_option"><strong>类别: </strong>{{m.tags}}</p>
+                        	<p class="movie_option"><strong>上映年份: </strong>{{m.releaseDate}}</p>
+                        	<p class="movie_option"><strong>导演: </strong>{{m.director}}</p>
+                        	<p class="movie_option"><strong>电影时长: </strong>{{m.times}}</p>
 
                             <div class="down_btn"><a class="btn1" href="#"><span> </span>下载</a></div>
                          </div>
                         <div class="clearfix"> </div>
+<<<<<<< HEAD
                         <p class="m_4">电影简介</p>
 		                <form name="form1" id="form1" method="form1">
+=======
+                        <p class="m_4" v-html="m.intro">电影简介</p>
+                        </div>
+  <script type="text/javascript">
+			var vue = new Vue({
+				el : "#intro",
+				data :{
+					m:[]
+				},
+				created(){
+					axios.get("movie.s?op=queryMovieById&id="+location.hash.substring(1)).then(res=>{
+						this.m = res.data;
+					})
+				}
+			})
+		</script>
+		                <form>
+>>>>>>> branch 'main' of https://github.com/shengzhibuqing/repo.git
 							<div class="text">
 			                   <textarea v-model="xkmsg.content" ></textarea>
 			                </div>
