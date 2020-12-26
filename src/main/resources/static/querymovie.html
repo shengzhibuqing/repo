@@ -30,14 +30,40 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				 <li><span class="simptip-position-bottom simptip-movable" data-tooltip="more"><a href="movie.html"> </a></span></li>
 			 </ul>
 			</div>
-			<div class="col-sm-3 header_right">
+			<div id="topNav" class="col-sm-3 header_right">
 			   <ul class="header_right_box">
 				 <li><img src="images/p1.png" alt=""/></li>
-				 <li><p><a href="login.html">登录</a></p></li>
-				 <li class="last"><i class="edit"> </i></li>
+				 <li><p> <a href="login.html" v-if=" user=='' ">登录</a>
+						<a v-if="user!=null">{{user.name}}</a></p></li>
+				 <li style="font-size: 1.2em;font-weight: 600;margin-top: 4px;"class="last">&nbsp;&nbsp;&nbsp;&nbsp;<a style="color:black" @click="logout()" >退出</a></li>
 				 <div class="clearfix"> </div>
 			   </ul>
 			</div>
+			<script type="text/javascript">
+			var v2 = new Vue({
+				el:"#topNav",
+				data:{
+					user:{}
+				},
+				created(){
+					axios.get("getLoginedUser").then(res=>{
+						this.user = res.data;
+					})
+				},
+				methods:{
+					logout(){
+						if(confirm("确定要退出登录?")){
+							axios.get("out.s").then(res=>{
+								alert(res.data.msg);
+								location.href = "index.html";
+							});
+						}
+					}
+				}
+			})
+		
+		
+		</script>
 			<div class="clearfix"> </div>
 	      </div>
 	      <div class="content">
@@ -64,52 +90,50 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <div class="clearfix"> </div>
                             </div>
                             <div class="pagination">
-					           <span class="currentPage"></span><a class="nextPage"
+					           <span class="currentPage">第{{page}}页</span><a class="nextPage"
 						 @click="uppage()" >上一页|</a> <a class="lastPage"
 						 @click="downpage()">下一页|</a>
 						 <span id="count" v-text="'总共'+pages+'页'"></span>
 				            </div>
                       </div>
                             <script type="text/javascript">
-                           		var page=1;
-                           		var pages=0;
 	    						var vue = new Vue({
 	    							el:"#querym",
 	    							data:{
 	    								pages:"",
+	    								page:1,
 	    								mlist:[]
 	    							},
 	    							methods:{
 	    								uppage(){
-	    									page=page-1;
-	    									if(page==0){
+	    									this.page--;
+	    									if(this.page==0){
 	    										alert("当前已经是第一页！");
-	    										page=1;
+	    										this.page=1;
 	    									}
-	    									axios.get("movie.s?op=queryl&page="+page+"&m="+location.hash.substring(1)).then(res=>{
+	    									axios.get("movie.s?op=queryl&page="+this.page+"&m="+location.hash.substring(1)).then(res=>{
 		    									this.mlist = res.data;
 		    								})
 	    								},
 	    								downpage(){
-	    									if(page==0){
+	    									this.page++;
+	    									if(this.page==this.pages+1){
 	    										alert("当前已是最后一页！");
-	    										page=pages;
+	    										this.page=this.pages;
 	    									}
-	    									page=page+1;
-	    									axios.get("movie.s?op=queryl&page="+page+"&m="+location.hash.substring(1)).then(res=>{
+	    									axios.get("movie.s?op=queryl&page="+this.page+"&m="+location.hash.substring(1)).then(res=>{
 		    									this.mlist = res.data;
 		    								})
 	    								}
 	    							},
 	    							created(){
-	    								axios.get("movie.s?op=queryl&page="+page+"&m="+location.hash.substring(1)).then(res=>{
+	    								axios.get("movie.s?op=queryl&page="+this.page+"&m="+location.hash.substring(1)).then(res=>{
 	    									this.mlist = res.data;
 	    								}),
 	    								axios.get("movie.s?op=querycount&m="+location.hash.substring(1)).then(res=>{
 	    									//console.info(res.data);
 	    									this.pages = res.data;
 	    									console.info(this.pages);
-	    									this.pages = pages;
 	    								})
 	    							}
 	    						})

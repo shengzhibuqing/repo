@@ -8,12 +8,12 @@ server:
 
 spring:
    datasource:
-      url: jdbc:mysql://127.0.0.1:3306/c89-s2-xk
+      url: jdbc:mysql://188.131.137.161:3306/c89-s2-xk?useSSL=false&serverTimezone=GMT
       username: root
       # 配置项之间可以有空行
-      password: a
+      password: Aa123456.
       # yml 支持驼峰命名 + -号分隔符
-      driverClassName: com.mysql.jdbc.Driver
+      driverClassName: com.mysql.cj.jdbc.Driver
       #driver-class-name: com.mysql.jdbc.Driver
       
    # 相同的配置节点只能出现一次 

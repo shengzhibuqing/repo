@@ -80,9 +80,7 @@ public class MovieAction {
 	
 	@RequestMapping(path="movie.s" ,params = "op=querycount")
 	public int querycount(String m){
-		double page = Math.ceil(mdao.selectCountpage(m)/6);
-		int pages = (int)page;
-		System.out.println("--------"+pages);
+		int pages = (int) Math.ceil(mdao.selectCountpage(m)/6.0);
 		return pages;
 	}
 }
