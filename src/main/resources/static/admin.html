@@ -21,8 +21,40 @@
     }
     function openTab1(){
     	$('#tt').tabs('add',{
-    	    title:'电影信息管理',
+    	    title:'用户信息管理',
     	    content:"<iframe src='u.html' style='border:0px'"
+    	    +"width='100%' height='100%'></iframe>",
+    	    closable:true,
+    	});
+    }
+    function openTab2(){
+    	$('#tt').tabs('add',{
+    	    title:'新增电影管理',
+    	    content:"<iframe src='insertM.html' style='border:0px'"
+    	    +"width='100%' height='100%'></iframe>",
+    	    closable:true,
+    	});
+    }
+    function openTab3(){
+    	$('#tt').tabs('add',{
+    	    title:'删除电影管理',
+    	    content:"<iframe src='remM.html' style='border:0px'"
+    	    +"width='100%' height='100%'></iframe>",
+    	    closable:true,
+    	});
+    }
+    function openTab4(){
+    	$('#tt').tabs('add',{
+    	    title:'新增用户管理',
+    	    content:"<iframe src='insertU.html' style='border:0px'"
+    	    +"width='100%' height='100%'></iframe>",
+    	    closable:true,
+    	});
+    }
+    function openTab5(){
+    	$('#tt').tabs('add',{
+    	    title:'删除用户管理',
+    	    content:"<iframe src='remU.html' style='border:0px'"
     	    +"width='100%' height='100%'></iframe>",
     	    closable:true,
     	});
@@ -66,9 +98,32 @@
 				width:150,
 				onClick:openTab1">用户信息大全</a>
 			</div>
-			<div title="信息修改"
-				data-options="iconCls:'icon-reload'"
-				style="padding: 10px;">content2</div>
+			<div title="信息大全" data-options="iconCls:'icon-save'"
+				style="overflow: auto;
+				 padding: 10px;
+				 text-align:center;
+				 line-height:40px">
+				<a id="btn" href="#" class="easyui-linkbutton" 
+				data-options="
+				iconCls:'icon-search',
+				width:150,
+				onClick:openTab2">新增电影</a>
+				<a id="btn" href="#" class="easyui-linkbutton" 
+				data-options="
+				iconCls:'icon-search',
+				width:150,
+				onClick:openTab3">删除电影</a>
+				<a id="btn" href="#" class="easyui-linkbutton" 
+				data-options="
+				iconCls:'icon-search',
+				width:150,
+				onClick:openTab4">新增用户</a>
+				<a id="btn" href="#" class="easyui-linkbutton" 
+				data-options="
+				iconCls:'icon-search',
+				width:150,
+				onClick:openTab5">删除用户</a>
+			</div>
 			<div title="Title3">content3</div>
 		</div>
 		<div id="tt" data-options="region:'center'"

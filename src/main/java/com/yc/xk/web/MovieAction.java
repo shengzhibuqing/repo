@@ -1,18 +1,24 @@
 package com.yc.xk.web;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.yaml.snakeyaml.tokens.Token.ID;
 
 import com.yc.xk.biz.BizException;
 import com.yc.xk.biz.MovieBiz;
 import com.yc.xk.dao.MovieDao;
 import com.yc.xk.po.Result;
+import com.yc.xk.po.User;
 import com.yc.xk.po.XkMovie;
 import com.yc.xk.po.XkMovieWithBLOBs;
 
@@ -25,6 +31,9 @@ public class MovieAction {
 	@Resource
 	private MovieBiz mbiz;
 	
+	@Resource
+	private StringRedisTemplate rt;
+	
 	@RequestMapping(path="movie.s",params = "op=queryMovie")
 	public List<XkMovie> queryMovie(){
 		return mdao.selectMovie();
@@ -34,6 +43,7 @@ public class MovieAction {
 	public List<XkMovie> queryNew(){
 		return mdao.selectNewMovie();
 	}
+	
 	
 	@RequestMapping(path="movie.s",params = "op=queryHot")
 	public List<XkMovie> queryHot(){
@@ -52,14 +62,21 @@ public class MovieAction {
 	
 	@RequestMapping(path="movie.s" ,params = "op=queryMovieById")
 	public XkMovieWithBLOBs selectMovieById(int id){
+		/**
+		 * 定义当前商品浏览器在redis中的键值
+		 */
+		String key = "movie_bcount_" + id;
+		/**
+		 * rt.opsForValue() 获取操作 stirng 类型的 redis对象
+		 * increment(key), 让 key 自增 1 ==> key++ 
+		 */
+		rt.opsForValue().increment(key);
 		return mdao.selectMovieById(id);
 	}
 	
 	@RequestMapping(path="movie.s" ,params = "op=queryl")
 	public List<XkMovie> queryl(String m,int page){
 		List<XkMovie> list = mdao.queryLikePage(m,page);
-		System.out.println("niubi"+m);
-		System.out.println("------"+list);
 		return list;
 	}
 
@@ -69,7 +86,6 @@ public class MovieAction {
 			return new Result(0,"请输入你想查询的片名");
 		}else {
 			List<XkMovie>list = mbiz.queryLike(m);
-			System.out.println("++++++"+list);
 			if(list.isEmpty()) {
 				return new Result(0,"网站资源有限，没有相关电影");
 			}else {
@@ -82,5 +98,36 @@ public class MovieAction {
 	public int querycount(String m){
 		int pages = (int) Math.ceil(mdao.selectCountpage(m)/6.0);
 		return pages;
+	}
+	
+	
+	@RequestMapping(path="pf")
+	public Result pf(double score,int mid,HttpSession s){
+		User user=(User) s.getAttribute("loginedUser");
+		String mids="df_"+mid+"";
+		
+		if(user==null) {
+			return new Result(0,"用户未登录不能评分");	
+		}else {
+			if(rt.opsForHash().get(mids, user.getUid()+"")!=null){
+				return new Result(0,"您已评过分");
+			} else {
+				int sum=0;
+				int i=0;
+				rt.opsForHash().put(mids, user.getUid()+"",score+"");
+				Map map = rt.opsForHash().entries(mids);
+				map.get( user.getUid()+"") ;
+				map.values();
+				for( Object a:map.values()) {
+					double sc=(double)Integer.parseInt(a.toString());      ////////
+					sum+=sc;
+					i++;
+				}
+				score=(double)sum/i;										////////
+				System.out.println("=============="+map.values() );
+				mdao.selectPf(score, mid);
+				return new Result(1,"评分成功");
+				}
+		}
 	}
 }

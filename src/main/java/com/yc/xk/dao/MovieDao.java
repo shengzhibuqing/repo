@@ -4,9 +4,15 @@ import java.sql.ResultSet;
 
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import javax.annotation.Resource;
+
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 
 import com.yc.xk.po.XkMovie;
@@ -116,5 +122,27 @@ public class MovieDao extends BaseDao{
 		String sql="select count(*) cnt from xk_movie where name like concat('%',?,'%')";
 		return jt.queryForObject(sql,Integer.class,m);
 	}
-
+	
+	public int selectPf(double score,int mid) {
+		String sql="update xk_movie set score=? where id=? ";
+		return jt.update(sql,mid,score);
+	}
+	
+	@Resource
+	private StringRedisTemplate srt;
+	// @Scheduled(cron = "0 0 * * * *")
+	@Scheduled(cron = "0 * * * * *")
+	public void updateBcount() {
+		//System.out.println("==========定时更新浏览量===========");
+		// 获取所有的商品的键名
+		Set<String> ids = srt.keys("movie_bcount_*");
+		List<Object[]> paramList = new ArrayList<>();
+		for(String id : ids) {
+			String bcount = srt.opsForValue().get(id);
+			String mid = id.replace("movie_bcount_", "");
+			paramList.add(new Object[] {bcount, mid});
+		}
+		String sql = "update xk_movie set bcount=? where id=?";
+		jt.batchUpdate(sql,paramList);
+	}
 }
