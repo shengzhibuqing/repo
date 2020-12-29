@@ -2,7 +2,6 @@ package com.yc.xk.dao;
 
 import java.sql.ResultSet;
 
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +22,11 @@ public class MovieDao extends BaseDao{
 
 	public List<XkMovie> selectMovie() {
 		String sql = "select * from xk_movie limit 0,16";
+		return jt.query(sql, movieRowMapper);
+	}
+	
+	public List<XkMovie> selectAllMovie() {
+		String sql = "select * from xk_movie";
 		return jt.query(sql, movieRowMapper);
 	}
 	
@@ -62,6 +66,7 @@ public class MovieDao extends BaseDao{
 			m.setNation(rs.getString("nation"));
 			m.setDirector(rs.getString("director"));
 			m.setBcount(rs.getInt("bcount"));
+			m.setScore(rs.getDouble("score"));
 			
 			return m;
 		}
@@ -144,5 +149,30 @@ public class MovieDao extends BaseDao{
 		}
 		String sql = "update xk_movie set bcount=? where id=?";
 		jt.batchUpdate(sql,paramList);
+	}
+
+	public void insert(String name,String times,String intro) {
+		String sql = "insert into xk_movie values(null,?,null,null,null,"
+				+ "null,?,null,null,null,"
+				+ "null,null,null,null,null,"
+				+ "null,null,null,null,?,"
+				+ "null,null,default,null,null,)";
+		jt.update(sql,
+		name,
+		times,
+		intro);
+	}
+
+	public int selectCountLike(String name) {
+		String sql="select count(*) cnt from xk_movie where name like concat('%',?,'%')";
+		return jt.queryForObject(sql,Integer.class,name);
+	}
+
+	public List<XkMovie> selectPageLike(int page,String name) {
+		//计算开始页数
+		int begin=(page-1)*10;
+		//mysql 分页查询语法 ：limit 从第几行开始，查几行数据
+		String sql="select * from xk_movie where name like concat('%',?,'%') limit ?,10";
+		return jt.query(sql, movieRowMapper,name, begin);
 	}
 }

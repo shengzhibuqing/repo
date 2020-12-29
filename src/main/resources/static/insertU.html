@@ -9,35 +9,55 @@
 <script type="text/javascript" src="../easyui/jquery.min.js"></script>
 <script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript"src="../easyui/locale/easyui-lang-zh_CN.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
 <body>
 <div id="cc" class="easyui-layout" data-options="fit:true">
      <div data-options="region:'north',title:'查询条件',split:true" style="height:100px;">
        <div id="tb" style="padding:3px">
-        <span>用户编号 :</span>
-        <input id="itemid" style="line-height:26px;border:1px solid #ccc">
+        <span>用户名 :</span>
+        <input v-model="name" id="itemid" style="line-height:26px;border:1px solid #ccc">
         <span>用户邮箱 ：</span>
-        <input id="productid" style="line-height:26px;border:1px solid #ccc">
-        <a href="#" class="easyui-linkbutton" plain="true" onclick="doSearch()">查询</a>
+        <input v-model="email" id="productid" style="line-height:26px;border:1px solid #ccc">
+        <span>用户电话 ：</span>
+        <input v-model="phone" id="productid" style="line-height:26px;border:1px solid #ccc">
+         <span>用户密码 ：</span>
+        <input v-model="pwd" id="productid" style="line-height:26px;border:1px solid #ccc">
+        <span>用户头像 ：</span> 
+        <input v-model="head" type="image" name="myfile"><img>
+        <a href="#" class="easyui-linkbutton" plain="true" @click="doadd()">添加电影</a>
        </div>
+       <script type="text/javascript">
+		   var v2 = new Vue({
+				el:"#tb",
+				data:{
+					name="",
+					email="",
+					phone="",
+					pwd="",
+					head=""
+				},
+				methods:{
+					doadd(){
+						var params = new URLSearchParams();
+						params.append("name",this.name);
+						params.append("email",this.email);
+						params.append("phone",this.phone);
+						params.append("pwd",this.pwd);
+						
+						axios.post("createuser",params).then(res=>{
+							if(res.data.code == 1){
+								alert(res.data.msg);
+							}else()
+						}).catch(error=>{
+							alert("系统错误，请联系管理员");
+						})
+					}
+				}
+				
+			})
+		   </script>
      </div>
-     <div data-options="region:'center',title:'查询结果'" style="padding:5px;background:#eee;">
-     <table class="easyui-datagrid" 
-      data-options="fit:true,
-      url:'queryuser.s',
-      fitColumns:true,
-      singleSelect:true,
-      pagination:true">
-    <thead>
-        <tr>
-            <th data-options="field:'uid',width:100">用户编号</th>
-            <th data-options="field:'name',width:100">昵称</th>
-            <th data-options="field:'email',width:100">邮箱</th>
-            <th data-options="field:'phone',width:100">电话</th>
-            <th data-options="field:'pwd',width:100">密码</th>
-            <th data-options="field:'head',width:100">头像</th>
-        </tr>
-    </thead>
-</table></div>
 </div>
 </body>
 </html>

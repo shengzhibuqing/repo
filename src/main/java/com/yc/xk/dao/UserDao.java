@@ -75,4 +75,14 @@ public class UserDao extends BaseDao{
 		String sql = "update user set pwd = ? where email = ?";
 		return jt.update(sql, newpwd,email);
 	}
+
+	public void insert(String name, String email, String phone, String pwd) {
+		String sql = "insert into user values(null,?,?,?,null,?)";
+		jt.update(sql,
+		phone,
+		email,
+		name,
+		pwd);
+	}
+		
 }

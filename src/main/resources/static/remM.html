@@ -13,18 +13,16 @@
 <div id="cc" class="easyui-layout" data-options="fit:true">
      <div data-options="region:'north',title:'查询条件',split:true" style="height:100px;">
        <div id="tb" style="padding:3px">
-        <span>电影编号 :</span>
-        <input id="itemid" style="line-height:26px;border:1px solid #ccc">
-        <span>电影名 ：:</span>
-        <input id="productid" style="line-height:26px;border:1px solid #ccc">
-        <a href="#" class="easyui-linkbutton" plain="true" onclick="doSearch()">查询</a>
+        <span>电影名 ：</span>
+        <input v-model="name" id="productid" style="line-height:26px;border:1px solid #ccc">
+        <button  type="button" onclick="dorm()">查询</button>
        </div>
      </div>
      <div data-options="region:'center',title:'查询结果'" style="padding:5px;background:#eee;">
-     <table class="easyui-datagrid" 
+     <table id="dg" class="easyui-datagrid" 
       data-options="fit:true,
-      url:'querymovie.s',
       fitColumns:true,
+      url:'rmmovie?a='+new Date(),
       singleSelect:true,
       pagination:true">
     <thead>
@@ -39,5 +37,15 @@
     </thead>
 </table></div>
 </div>
+<script type="text/javascript">
+$('#cc').datagrid('load',{
+	id: '',
+	name: '',
+	tags:'',
+	releaseDate:'',
+	createDate:'',
+	times:''
+});
+</script>
 </body>
 </html>

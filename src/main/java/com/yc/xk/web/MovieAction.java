@@ -1,10 +1,8 @@
 package com.yc.xk.web;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -12,7 +10,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.yaml.snakeyaml.tokens.Token.ID;
 
 import com.yc.xk.biz.BizException;
 import com.yc.xk.biz.MovieBiz;
@@ -102,7 +99,7 @@ public class MovieAction {
 	
 	
 	@RequestMapping(path="pf")
-	public Result pf(double score,int mid,HttpSession s){
+	public Result pf(int score,int mid,HttpSession s){
 		User user=(User) s.getAttribute("loginedUser");
 		String mids="df_"+mid+"";
 		
@@ -112,22 +109,31 @@ public class MovieAction {
 			if(rt.opsForHash().get(mids, user.getUid()+"")!=null){
 				return new Result(0,"您已评过分");
 			} else {
-				int sum=0;
-				int i=0;
+				double sum=0;
 				rt.opsForHash().put(mids, user.getUid()+"",score+"");
 				Map map = rt.opsForHash().entries(mids);
 				map.get( user.getUid()+"") ;
 				map.values();
 				for( Object a:map.values()) {
-					double sc=(double)Integer.parseInt(a.toString());      ////////
+					double sc=Double.parseDouble(a.toString());   
 					sum+=sc;
-					i++;
 				}
-				score=(double)sum/i;										////////
-				System.out.println("=============="+map.values() );
-				mdao.selectPf(score, mid);
+				double scores=sum/map.size();
+				System.out.println("=============="+scores );
+				mdao.selectPf(scores, mid);
 				return new Result(1,"评分成功");
 				}
+		}
+	}
+	
+	@RequestMapping("createmovie")
+	public Result create(String name,String times,String intro) {
+		try {
+			mbiz.create(name,times,intro);
+			return Result.success("电影添加成功!");
+		} catch (BizException e) {
+			e.printStackTrace();
+			return Result.failure(e.getMessage());
 		}
 	}
 }

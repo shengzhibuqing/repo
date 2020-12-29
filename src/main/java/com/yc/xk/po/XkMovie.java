@@ -45,9 +45,17 @@ public class XkMovie {
     
     private Integer bcount;
     
-    
+    private Double Score;
 
-    public Integer getBcount() {
+    public Double getScore() {
+		return Score;
+	}
+
+	public void setScore(Double score) {
+		Score = score;
+	}
+
+	public Integer getBcount() {
 		return bcount;
 	}
 

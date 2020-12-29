@@ -2,13 +2,13 @@ package com.yc.xk.biz;
 
 import java.util.List;
 
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
 import com.yc.xk.dao.MovieDao;
 import com.yc.xk.po.XkMovie;
+import com.yc.xk.util.Utils;
 
 @Service
 public class MovieBiz {
@@ -32,6 +32,26 @@ public class MovieBiz {
 		List<XkMovie>list = mdao.queryLike(m);
 		return list;
 	}
+
+	public void create(String name, String times, String intro) throws BizException {
+		Utils.checkNull(name, "电影名不能为空");
+		Utils.checkNull(times, "电影时长不能为空");
+		Utils.checkNull(intro, "电影简介不能为空");
+		// ...其他字段请自行扩展: 2价格,图片,说明
+		
+		// 添加到数据库
+		mdao.insert(name,times,intro);
+	}
+
+	public void delete(String name) throws BizException {
+		if(name==null) {
+			mdao.selectAllMovie();
+		}else {
+			mdao.queryLike(name);
+		}
+	}
+		
+}
 	
 	/*
 	public String resetPwd(String email,String vcode,
@@ -45,4 +65,3 @@ public class MovieBiz {
 	}
 	*/
 
-}

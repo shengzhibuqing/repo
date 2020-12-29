@@ -3,8 +3,6 @@ package com.yc.xk.web;
 
 import java.io.IOException;
 
-
-
 import java.sql.SQLException;
 
 import javax.annotation.Resource;
@@ -128,6 +126,17 @@ public class UserAction {
 			return new Result(1,"发送成功");
 		} catch (Exception e) {
 			return new Result(0,"发送失败,邮箱未填写，请填写正确的邮箱地址");
+		}
+	}
+	
+	@RequestMapping("createuser")
+	public Result create(String name,String email,String phone,String pwd) {
+		try {
+			ubiz.create(name,email,phone,pwd);
+			return Result.success("用户添加成功!");
+		} catch (BizException e) {
+			e.printStackTrace();
+			return Result.failure(e.getMessage());
 		}
 	}
 	
