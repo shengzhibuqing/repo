@@ -99,9 +99,10 @@ public class MovieAction {
 	
 	
 	@RequestMapping(path="pf")
-	public Result pf(int score,int mid,HttpSession s){
+	public Result pf(int score,String name,HttpSession s){
+		System.out.println("----------"+name);
 		User user=(User) s.getAttribute("loginedUser");
-		String mids="df_"+mid+"";
+		String mids="df_"+name+"";
 		
 		if(user==null) {
 			return new Result(0,"用户未登录不能评分");	
@@ -120,16 +121,16 @@ public class MovieAction {
 				}
 				double scores=sum/map.size();
 				System.out.println("=============="+scores );
-				mdao.selectPf(scores, mid);
+				mdao.selectPf(scores, name);
 				return new Result(1,"评分成功");
 				}
 		}
 	}
 	
-	@RequestMapping("createmovie")
-	public Result create(String name,String times,String intro) {
+	@RequestMapping("createMovie")
+	public Result create(XkMovie m) {
 		try {
-			mbiz.create(name,times,intro);
+			mbiz.create(m);
 			return Result.success("电影添加成功!");
 		} catch (BizException e) {
 			e.printStackTrace();

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yc.xk.dao.MovieDao;
 import com.yc.xk.po.XkMovie;
@@ -33,22 +34,26 @@ public class MovieBiz {
 		return list;
 	}
 
-	public void create(String name, String times, String intro) throws BizException {
-		Utils.checkNull(name, "电影名不能为空");
-		Utils.checkNull(times, "电影时长不能为空");
-		Utils.checkNull(intro, "电影简介不能为空");
-		// ...其他字段请自行扩展: 2价格,图片,说明
-		
-		// 添加到数据库
-		mdao.insert(name,times,intro);
-	}
-
 	public void delete(String name) throws BizException {
 		if(name==null) {
 			mdao.selectAllMovie();
 		}else {
 			mdao.queryLike(name);
 		}
+	}
+	
+	@Transactional
+	public void create(XkMovie m) throws BizException{
+		// 验证输入
+		Utils.checkNull(m.getName(), "商品名称不能为空");
+		Utils.checkNull(m.getNation(), "国家不能为空");
+		Utils.checkNull(m.getTags(), "影片类型不能为空");
+		Utils.checkNull(m.getLanguage(), "语言不能为空");
+		Utils.checkNull(m.getDirector(), "导演不能为空");
+		Utils.checkNull(m.getTimes(), "影片时长不能为空");
+
+		// 添加到数据库
+		mdao.insert(m);
 	}
 		
 }

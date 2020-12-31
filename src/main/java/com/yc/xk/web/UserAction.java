@@ -129,15 +129,6 @@ public class UserAction {
 		}
 	}
 	
-	@RequestMapping("createuser")
-	public Result create(String name,String email,String phone,String pwd) {
-		try {
-			ubiz.create(name,email,phone,pwd);
-			return Result.success("用户添加成功!");
-		} catch (BizException e) {
-			e.printStackTrace();
-			return Result.failure(e.getMessage());
-		}
-	}
+
 	
 }

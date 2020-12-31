@@ -9,20 +9,36 @@
 <script type="text/javascript" src="../easyui/jquery.min.js"></script>
 <script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript"src="../easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript"src="../easyui/plugins/jquery.datagrid.js"></script>
+<script type="text/javascript"src="../easyui/easyloader.js"></script>
+<script type="text/javascript">
+
+
+function fmtCz(value, row, index){
+	return '<button onclick="del('+row.id+')">删除</button>'
+}
+
+function del(id){
+	$.post("shanchu.s",{id : id} , data=>{
+	});  
+	alert("删除成功");
+}
+
+</script>
 <body>
-<div id="cc" class="easyui-layout" data-options="fit:true">
+<div id="cc" class="easyui-layout " data-options="fit:true">
      <div data-options="region:'north',title:'查询条件',split:true" style="height:100px;">
-       <div id="tb" style="padding:3px">
+       <div  id="tb" style="padding:3px">
         <span>电影名 ：</span>
-        <input v-model="name" id="productid" style="line-height:26px;border:1px solid #ccc">
-        <button  type="button" onclick="dorm()">查询</button>
+        <input id="name"  style="line-height:26px;border:1px solid #ccc "> 
+       <a class="easyui-linkbutton" plain="true" onclick="dorm()" >查询</a>
        </div>
      </div>
      <div data-options="region:'center',title:'查询结果'" style="padding:5px;background:#eee;">
      <table id="dg" class="easyui-datagrid" 
       data-options="fit:true,
       fitColumns:true,
-      url:'rmmovie?a='+new Date(),
+      url:'rmmovie',
       singleSelect:true,
       pagination:true">
     <thead>
@@ -33,19 +49,28 @@
             <th data-options="field:'releaseDate',width:100">上映时间</th>
             <th data-options="field:'createDate',width:100">发布时间</th>
             <th data-options="field:'times',width:100">电影时长</th>
+            <th data-options="field:'?????',width:100,formatter:fmtCz">操作</th>
         </tr>
     </thead>
 </table></div>
 </div>
 <script type="text/javascript">
-$('#cc').datagrid('load',{
-	id: '',
-	name: '',
-	tags:'',
-	releaseDate:'',
-	createDate:'',
-	times:''
-});
+/*$.ajax({
+	type:"POST",
+	data:"name=document.getElementById('name').value"
+		$('#cc').datagrid('load',{
+		});
+})*/
+
+function dorm(){
+	$('#dg').datagrid('load',{
+		name:document.getElementById('name').value
+	});
+	
+}
+
+
+
 </script>
 </body>
 </html>

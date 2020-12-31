@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -9,51 +8,99 @@
 <script type="text/javascript" src="../easyui/jquery.min.js"></script>
 <script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript"src="../easyui/locale/easyui-lang-zh_CN.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.min.js"></script>
 <body>
-<div id="cc" class="easyui-layout" data-options="fit:true">
-     <div data-options="region:'north',title:'查询条件',split:true" style="height:100px;">
-       <div id="tb" style="padding:3px">
-        <span>电影名 :</span>
-        <input v-model="name" id="itemid" style="line-height:26px;border:1px solid #ccc">
-        <span>电影时长 ：</span>
-        <input v-model="times" id="productid" style="line-height:26px;border:1px solid #ccc">
-        <span>电影简介 ：</span>
-        <input v-model="intro" id="productid" style="line-height:26px;border:1px solid #ccc">
-        <span>电影海报 ：</span> 
-        <input v-model="poster" type="image" name="myfile"><img>
-        <a href="#" class="easyui-linkbutton" plain="true" @click="doadd()">添加电影</a>
-       </div>
-       <script type="text/javascript">
-		   var v2 = new Vue({
-				el:"#tb",
-				data:{
-					name="",
-					times="",
-					intro="",
-					poster=""
-				},
-				methods:{
-					doadd(){
-						var params = new URLSearchParams();
-						params.append("name",this.name);
-						params.append("times",this.times);
-						params.append("intro",this.intro);
-						
-						axios.post("createmovie",params).then(res=>{
-							if(res.data.code == 1){
-								alert(res.data.msg);
-							}else()
-						}).catch(error=>{
-							alert("系统错误，请联系管理员");
-						})
-					}
+<div  class="easyui-layout" data-options="fit:true">
+     
+     
+     
+	<div class="easyui-panel" title="电影信息" style="width:100%;max-width:400px;padding:30px 60px;">
+		<form id="cc" method="post" action="../createMovie">
+			<div style="margin-bottom:20px">
+				<input class="easyui-textbox" name="name" style="width:100%" 
+					data-options="label:'名称:',">
+			</div>
+			
+			<div style="margin-bottom:20px">
+				<select class="easyui-combobox" name="nation" label="发布地" style="width:100%">
+					<option value="1">中国大陆</option>
+					<option value="2">中国香港</option>
+					<option value="3">中国台湾</option>
+					<option value="4">美国</option>
+					<option value="5">日本</option>
+					<option value="6">韩国</option>
+					<option value="7">英国</option>
+					<option value="9">西班牙</option>
+					<option value="10">澳大利亚</option>
+					<option value="11">印度</option>
+					<option value="12">法国</option>
+					<option value="13">比利时</option>
+					<option value="14">丹麦</option>
+					<option value="15">德国</option>
+					<option value="16">加拿大</option>
+					<option value="17">以色列</option>
+					<option value="18">俄罗斯</option>
+					<option value="19">墨西哥</option>
+					<option value="20">罗马利亚</option>
+					<option value="21">意大利</option>
+					<option value="22">巴西</option>
+					<option value="23">沙特阿拉伯</option>
+					<option value="24">波兰</option>
+					<option value="25">伊朗</option>
+					<option value="26">奥地利</option>
+					<option value="27">以色列</option>
+					<option value="28">阿根廷</option>
+					<option value="29">芬兰</option>
+					<option value="30">哥伦比亚</option>
+					<option value="31">新西兰</option>
+					<option value="32">其他</option>
+					</select>
+			</div>
+			<div style="margin-bottom:20px">
+				<input class="easyui-textbox" name="tags" style="width:100%"
+					data-options="label:'影片类型',">
+			</div>
+			
+			<div style="margin-bottom:20px">
+				<input class="easyui-textbox" name="language" style="width:100%"
+					data-options="label:'语言',">
+			</div>
+			
+			<div style="margin-bottom:20px">
+				<input class="easyui-textbox" name="director" style="width:100%;height:60px" 
+					data-options="label:'导演',multiline:true">
+			</div>
+			
+			<div style="margin-bottom:20px">
+				<input class="easyui-textbox" name="times" style="width:100%"
+					data-options="label:'影片时长',">
+			</div>
+		
+			
+			
+		</form>
+		<div style="text-align:center;padding:5px 0">
+			<a href="javascript:void(0)" class="easyui-linkbutton" 
+					onclick="submitForm()" style="width:80px">保存</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" 
+					onclick="clearForm()" style="width:80px">重置</a>
+		</div>
+	</div>
+     <script>
+		function submitForm(){
+			// easyui 会提交表单中所有带 name 的字段(输入框)的值
+			$('#cc').form('submit',{
+				success(res){
+					// res 应该是 json 格式的字符串
+					var result = JSON.parse(res);
+					alert(result.msg);
 				}
-				
-			})
-		   </script>
-     </div>
+			});
+		}
+		function clearForm(){
+			$('#cc').form('clear');
+		}
+	</script>
+    
 </div>
 </body>
 </html>

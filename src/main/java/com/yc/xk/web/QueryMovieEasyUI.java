@@ -36,6 +36,7 @@ public class QueryMovieEasyUI {
 	
 	@RequestMapping("rmmovie")
 	public Map<String,Object> rm(String name,String page) {
+		System.out.println("3333333333"+name);
 		if(name==null) {
 			int iPage = page == null ? 1 : Integer.parseInt(page);
 			List<XkMovie> rows=mdao.selectPage(iPage);
@@ -56,6 +57,12 @@ public class QueryMovieEasyUI {
 			System.out.println(data);
 			return data;
 		}
+	}
+	
+	@RequestMapping(path="shanchu.s")
+	public void shanchu(int id){
+		System.out.println(id);
+		mdao.del(id);
 	}
 
 }

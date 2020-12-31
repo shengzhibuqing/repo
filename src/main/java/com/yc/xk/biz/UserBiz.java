@@ -78,16 +78,21 @@ public class UserBiz {
 		return i;
 	}
 
-	public void create(String name, String email, String phone, String pwd) throws BizException {
-		Utils.checkNull(name, "用户名名不能为空");
-		Utils.checkNull(email, "用户邮箱不能为空");
-		Utils.checkNull(phone, "用户电话不能为空");
-		Utils.checkNull(pwd, "密码不能为空");
-		// ...其他字段请自行扩展: 2价格,图片,说明
-		
-		// 添加到数据库
-		udao.insert(name,email,phone,pwd);
-		
+
+	
+	public void create(User u) throws BizException, SQLException {
+		// 验证输入
+				Utils.checkNull(u.getPhone(), "电话不能为空");
+				Utils.checkNull(u.getEmail(), "邮箱不能为空");
+				Utils.checkNull(u.getName(), "姓名不能为空");
+				Utils.checkNull(u.getPwd(), "密码不能为空");
+				User dbuser = udao.selectByEmail(u.getEmail());
+				if(dbuser != null ) {
+					throw new BizException("该邮箱已经被注册");
+				}
+				
+				// 添加到数据库
+				udao.insert(u);
 	}
 
 }

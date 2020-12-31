@@ -124,8 +124,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				methods:{
 					pf1(){
      					  var params = new URLSearchParams();
-     					  var mid = location.hash.substring(1);
-     					  params.append("mid",mid);
+     					  //console.info(this.m.name);
+     					 params.append("name",this.m.name);
      					  params.append("score",1);
      					 params.append("skr",0);
      					  axios.post("pf",params).then(res=>{
@@ -140,7 +140,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					pf2(){
      					  var params = new URLSearchParams();
      					  var mid = location.hash.substring(1);
-     					  params.append("mid",mid);
+     					 params.append("name",this.m.name);
      					  params.append("score",2);
      					 params.append("skr",0);
      					  axios.post("pf",params).then(res=>{
@@ -155,7 +155,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					pf3(){
      					  var params = new URLSearchParams();
      					  var mid = location.hash.substring(1);
-     					  params.append("mid",mid);
+     					 params.append("name",this.m.name);
      					  params.append("score",3);
      					  params.append("skr",0);
      					  axios.post("pf",params).then(res=>{
@@ -170,7 +170,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					pf4(){
      					  var params = new URLSearchParams();
      					  var mid = location.hash.substring(1);
-     					  params.append("mid",mid);
+     					 params.append("name",this.m.name);
      					  params.append("score",4);
      					  params.append("skr",0);
      					  axios.post("pf",params).then(res=>{
@@ -185,7 +185,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					pf5(){
      					  var params = new URLSearchParams();
      					  var mid = location.hash.substring(1);
-     					  params.append("mid",mid);
+     					 params.append("name",this.m.name);
      					  params.append("score",5);
      					  axios.post("pf",params).then(res=>{
      						  if(res.data.code==0){

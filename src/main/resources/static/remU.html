@@ -9,21 +9,33 @@
 <script type="text/javascript" src="../easyui/jquery.min.js"></script>
 <script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript"src="../easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript">
+
+
+function fmtCz(value, row, index){
+	return '<button onclick="del('+row.email+')">删除</button>'
+}
+
+function del(email){
+	$.post("shanchuu.s",{email : email} , data=>{
+	});  
+	alert("删除成功");
+}
+
+</script>
 <body>
 <div id="cc" class="easyui-layout" data-options="fit:true">
      <div data-options="region:'north',title:'查询条件',split:true" style="height:100px;">
        <div id="tb" style="padding:3px">
-        <span>用户编号 :</span>
-        <input id="itemid" style="line-height:26px;border:1px solid #ccc">
         <span>用户邮箱 ：</span>
-        <input id="productid" style="line-height:26px;border:1px solid #ccc">
-        <a href="#" class="easyui-linkbutton" plain="true" onclick="doSearch()">查询</a>
+        <input id="email" style="line-height:26px;border:1px solid #ccc">
+        <a class="easyui-linkbutton" plain="true" onclick="dorm()">查询</a>
        </div>
      </div>
      <div data-options="region:'center',title:'查询结果'" style="padding:5px;background:#eee;">
-     <table class="easyui-datagrid" 
+     <table id="dg" class="easyui-datagrid" 
       data-options="fit:true,
-      url:'queryuser.s',
+      url:'remuser.s',
       fitColumns:true,
       singleSelect:true,
       pagination:true">
@@ -35,9 +47,25 @@
             <th data-options="field:'phone',width:100">电话</th>
             <th data-options="field:'pwd',width:100">密码</th>
             <th data-options="field:'head',width:100">头像</th>
+            <th data-options="field:'?????',width:100,formatter:fmtCz">操作</th>
         </tr>
     </thead>
 </table></div>
 </div>
+<script type="text/javascript">
+/*$.ajax({
+	type:"POST",
+	data:"name=document.getElementById('name').value"
+		$('#cc').datagrid('load',{
+		});
+})*/
+
+function dorm(){
+	$('#dg').datagrid('load',{
+		email:document.getElementById('email').value
+	});
+	
+}
+</script>
 </body>
 </html>
